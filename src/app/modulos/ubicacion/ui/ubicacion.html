@@ -1,0 +1,10 @@
+<h1>Ubicación espacial</h1>
+<p class="texto-suave">
+  Cuadrícula de referencia de {{ columnas }} columnas por {{ filas }} filas ({{ celdas.length }} celdas).
+</p>
+
+<ol class="cuadricula" [style.--columnas]="columnas" aria-label="Celdas numeradas">
+  @for (celda of celdas; track celda) {
+    <li class="cuadricula__celda">{{ celda }}</li>
+  }
+</ol>

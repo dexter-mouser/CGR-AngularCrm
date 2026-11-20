@@ -1,0 +1,22 @@
+/* Cuadrícula flexbox: cada fila tiene exactamente --columnas celdas */
+.cuadricula {
+  display: flex;
+  flex-wrap: wrap;
+  margin: var(--espacio-6) 0 0;
+  padding: 0;
+  list-style: none;
+  border-block-start: var(--borde);
+  border-inline-start: var(--borde);
+}
+
+.cuadricula__celda {
+  display: grid;
+  place-items: center;
+  flex: 0 0 calc(100% / var(--columnas));
+  block-size: clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
+  font-size: clamp(0.6875rem, 0.6rem + 0.3vw, 0.875rem);
+  font-variant-numeric: tabular-nums;
+  background-color: var(--color-superficie);
+  border-inline-end: var(--borde);
+  border-block-end: var(--borde);
+}

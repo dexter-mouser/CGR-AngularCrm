@@ -1,0 +1,32 @@
+<nav
+  id="menu-lateral"
+  class="menu-lateral"
+  aria-label="Menú principal"
+  [class.menu-lateral--recogido]="estado.estaRecogido()"
+>
+  <ul class="menu-lateral__lista">
+    @for (modulo of modulos; track modulo.nombre) {
+      <li>
+        <a
+          class="menu-lateral__enlace"
+          [routerLink]="'/' + modulo.ruta"
+          routerLinkActive="menu-lateral__enlace--activo"
+          ariaCurrentWhenActive="page"
+          [attr.title]="estado.estaRecogido() ? modulo.menu.etiqueta : null"
+        >
+          <app-icono [nombre]="modulo.menu.icono" />
+          <span class="menu-lateral__texto">{{ modulo.menu.etiqueta }}</span>
+        </a>
+      </li>
+    }
+  </ul>
+
+  <a
+    class="menu-lateral__enlace menu-lateral__salir"
+    routerLink="/"
+    [attr.title]="estado.estaRecogido() ? 'Cerrar sesión' : null"
+  >
+    <app-icono nombre="salir" />
+    <span class="menu-lateral__texto">Cerrar sesión</span>
+  </a>
+</nav>

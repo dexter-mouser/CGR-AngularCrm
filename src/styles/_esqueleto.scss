@@ -1,0 +1,39 @@
+/* Bloques de carga (skeleton) con animación de pulso */
+.esqueleto {
+  display: block;
+  background-color: var(--color-borde);
+  border-radius: var(--radio);
+  animation: esqueleto-pulso 1.5s ease-in-out infinite;
+}
+
+.esqueleto--titulo {
+  inline-size: min(40%, 240px);
+  block-size: 2rem;
+}
+
+.esqueleto--linea {
+  inline-size: 100%;
+  block-size: 1rem;
+}
+
+.esqueleto--corta {
+  inline-size: 60%;
+}
+
+.esqueleto--bloque {
+  inline-size: 100%;
+  block-size: 160px;
+}
+
+@keyframes esqueleto-pulso {
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* Sin animación si el sistema pide reducir el movimiento */
+@media (prefers-reduced-motion: reduce) {
+  .esqueleto {
+    animation: none;
+  }
+}

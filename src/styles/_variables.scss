@@ -1,0 +1,60 @@
+/* Variables del tema */
+:root {
+  color-scheme: light dark;
+
+  // El <meta name="color-scheme"> manda cuando el usuario fija un tema
+  &:has(> head > meta[name='color-scheme'][content='dark']) {
+    color-scheme: dark;
+  }
+
+  &:has(> head > meta[name='color-scheme'][content='light']) {
+    color-scheme: light;
+  }
+
+  /* Colores: light-dark(claro, oscuro) */
+  --color-acento: light-dark(#2f6f8f, #7fb3cc);
+  --color-sobre-acento: light-dark(#ffffff, #0f1a20);
+  --color-fondo: light-dark(#f6f8f9, #121619);
+  --color-superficie: light-dark(#ffffff, #1a2024);
+  --color-borde: light-dark(#dde3e7, #2e363c);
+  --color-borde-campo: light-dark(#7d8a95, #6b7780);
+  --color-texto: light-dark(#1c252c, #e0e4e7);
+  --color-texto-secundario: light-dark(#56636d, #9aa6ae);
+  --color-exito: light-dark(#2e7d5b, #6cc59a);
+  --color-error: light-dark(#b3403a, #ee8a82);
+  --color-aviso: light-dark(#9a6400, #e0b456);
+  --color-info: light-dark(#3d5fb8, #93a8e6);
+
+  /* Derivados de la paleta */
+  --color-superficie-hover: color-mix(in oklab, var(--color-texto) 6%, var(--color-superficie));
+  --color-foco: var(--color-acento);
+
+  /* Tipografía */
+  --fuente-base: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --texto-xs: 0.75rem;
+  --texto-sm: 0.875rem;
+  --texto-base: 1rem;
+  --texto-lg: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+  --texto-xl: clamp(1.5rem, 1.3rem + 0.8vw, 2rem);
+
+  /* Espacios */
+  --espacio-1: 0.25rem;
+  --espacio-2: 0.5rem;
+  --espacio-3: 0.75rem;
+  --espacio-4: 1rem;
+  --espacio-6: 1.5rem;
+  --espacio-8: 2rem;
+
+  /* Bordes */
+  --radio: 6px;
+  --borde: 1px solid var(--color-borde);
+  --borde-campo: 1px solid var(--color-borde-campo);
+
+  /* Medidas del layout */
+  --alto-menu-superior: 56px;
+  --ancho-menu-lateral: 220px;
+  --ancho-menu-recogido: 64px;
+  --alto-barra-inferior: 64px;
+  --ancho-minimo: 320px;
+  --ancho-maximo: 1200px;
+}

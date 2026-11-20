@@ -1,0 +1,25 @@
+<h1>Ventas</h1>
+
+<section class="listado" aria-labelledby="titulo-ventas">
+  <h2 id="titulo-ventas">Ventas registradas</h2>
+
+  @switch (estado()) {
+    @case ('cargando') {
+      <app-esqueleto-listado />
+    }
+    @case ('error') {
+      <p class="listado__aviso" role="alert">No se pudieron cargar los registros.</p>
+    }
+    @default {
+      @if (ventas().length === 0) {
+        <p class="listado__aviso">Sin registros</p>
+      } @else {
+        <ul class="listado__lista">
+          @for (venta of ventas(); track venta.id) {
+            <li>{{ venta.nombre }}</li>
+          }
+        </ul>
+      }
+    }
+  }
+</section>

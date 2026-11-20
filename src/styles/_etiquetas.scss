@@ -1,0 +1,9 @@
+/* Etiquetas de estado: fondo suave y texto del color */
+$estados: exito, error, aviso, info;
+
+@each $estado in $estados {
+  .etiqueta-#{$estado} {
+    color: var(--color-#{$estado});
+    background: color-mix(in oklab, var(--color-#{$estado}) 14%, var(--color-superficie));
+  }
+}

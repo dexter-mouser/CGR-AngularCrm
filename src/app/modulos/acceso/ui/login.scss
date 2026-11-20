@@ -1,0 +1,118 @@
+/* Página de acceso */
+.acceso {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 100dvh;
+  padding: var(--espacio-4);
+}
+
+.acceso__tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-4);
+  inline-size: 100%;
+  max-inline-size: 400px;
+  padding: var(--espacio-8) var(--espacio-6);
+  background-color: var(--color-superficie);
+  border: var(--borde);
+  border-radius: var(--radio);
+}
+
+.acceso__logo {
+  text-align: center;
+  letter-spacing: 0.04em;
+}
+
+.acceso__subtitulo {
+  margin-block-start: calc(var(--espacio-2) * -1);
+  text-align: center;
+  color: var(--color-texto-secundario);
+}
+
+/* Campos */
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-1);
+}
+
+.campo__etiqueta {
+  font-size: var(--texto-sm);
+  font-weight: 600;
+}
+
+.campo__grupo {
+  position: relative;
+}
+
+.campo__control {
+  inline-size: 100%;
+  min-block-size: 44px;
+  padding: var(--espacio-2) var(--espacio-3);
+  background-color: var(--color-fondo);
+  border: var(--borde-campo);
+  border-radius: var(--radio);
+
+  &:hover {
+    border-color: var(--color-texto);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
+
+  .campo__grupo & {
+    padding-inline-end: 48px;
+  }
+}
+
+.campo__ojo {
+  position: absolute;
+  inset-block: 2px;
+  inset-inline-end: 2px;
+  display: grid;
+  place-items: center;
+  inline-size: 40px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: var(--radio);
+
+  &:hover {
+    background-color: var(--color-superficie-hover);
+  }
+}
+
+.casilla {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-2);
+  font-size: var(--texto-sm);
+  cursor: pointer;
+
+  input {
+    inline-size: 18px;
+    block-size: 18px;
+    margin: 0;
+    accent-color: var(--color-acento);
+  }
+}
+
+/* Botón principal */
+.boton-principal {
+  min-block-size: 44px;
+  font-weight: 600;
+  color: var(--color-sobre-acento);
+  background-color: var(--color-acento);
+  border: 1px solid var(--color-acento);
+  border-radius: var(--radio);
+
+  &:hover {
+    opacity: 0.85;
+  }
+
+  &:active {
+    opacity: 0.7;
+  }
+}

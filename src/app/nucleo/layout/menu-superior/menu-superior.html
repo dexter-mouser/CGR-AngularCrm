@@ -1,0 +1,34 @@
+<header class="menu-superior">
+  <a class="menu-superior__logo" routerLink="/inicio">{{ nombreAplicacion }}</a>
+
+  <div class="menu-superior__acciones">
+    <!-- Recoger o abrir el menú lateral (solo escritorio) -->
+    <button
+      class="boton-icono menu-superior__recoger"
+      type="button"
+      aria-controls="menu-lateral"
+      aria-label="Menú lateral"
+      [attr.aria-expanded]="!menuLateral.estaRecogido()"
+      (click)="menuLateral.alternar()"
+    >
+      <app-icono nombre="menu" />
+    </button>
+
+    <!-- Tema: luna en claro (pasa a oscuro), sol en oscuro (pasa a claro) -->
+    <button class="boton-icono" type="button" (click)="tema.alternar()">
+      <span data-tema="claro">
+        <app-icono nombre="luna" />
+        <span class="solo-lector">Cambiar a tema oscuro</span>
+      </span>
+      <span data-tema="oscuro">
+        <app-icono nombre="sol" />
+        <span class="solo-lector">Cambiar a tema claro</span>
+      </span>
+    </button>
+
+    <p class="menu-superior__usuario">
+      <app-icono nombre="usuario" />
+      <span class="menu-superior__nombre">{{ usuario }}</span>
+    </p>
+  </div>
+</header>

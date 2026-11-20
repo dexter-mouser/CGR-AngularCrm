@@ -1,0 +1,25 @@
+<h1>Inventario</h1>
+
+<section class="listado" aria-labelledby="titulo-productos">
+  <h2 id="titulo-productos">Productos</h2>
+
+  @switch (estado()) {
+    @case ('cargando') {
+      <app-esqueleto-listado />
+    }
+    @case ('error') {
+      <p class="listado__aviso" role="alert">No se pudieron cargar los registros.</p>
+    }
+    @default {
+      @if (productos().length === 0) {
+        <p class="listado__aviso">Sin registros</p>
+      } @else {
+        <ul class="listado__lista">
+          @for (producto of productos(); track producto.id) {
+            <li>{{ producto.nombre }}</li>
+          }
+        </ul>
+      }
+    }
+  }
+</section>
