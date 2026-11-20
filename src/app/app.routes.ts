@@ -17,6 +17,7 @@ export const routes: Routes = [
     pathMatch: 'full',
     title: `Ingresar | ${NOMBRE_APLICACION}`,
     loadComponent: () => import('./modulos/acceso/ui/login').then((m) => m.Login),
+    providers: PROVEEDORES_POR_MODULO['acceso'] ?? [],
   },
   {
     path: '',

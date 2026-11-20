@@ -12,18 +12,25 @@
   }
 
   /* Colores: light-dark(claro, oscuro) */
-  --color-acento: light-dark(#2f6f8f, #7fb3cc);
+  --color-acento: light-dark(#1463d6, #7aaeff);
   --color-sobre-acento: light-dark(#ffffff, #0f1a20);
+  --color-acento-suave: light-dark(#e3edfc, #1b2a42);
   --color-fondo: light-dark(#f6f8f9, #121619);
   --color-superficie: light-dark(#ffffff, #1a2024);
   --color-borde: light-dark(#dde3e7, #2e363c);
   --color-borde-campo: light-dark(#7d8a95, #6b7780);
+  --color-campo: light-dark(#f8fafb, #20272c);
   --color-texto: light-dark(#1c252c, #e0e4e7);
   --color-texto-secundario: light-dark(#56636d, #9aa6ae);
   --color-exito: light-dark(#2e7d5b, #6cc59a);
   --color-error: light-dark(#b3403a, #ee8a82);
   --color-aviso: light-dark(#9a6400, #e0b456);
   --color-info: light-dark(#3d5fb8, #93a8e6);
+  --color-esqueleto-base: light-dark(#e4e9ec, #283036);
+  --color-esqueleto-brillo: light-dark(#f2f5f7, #333c43);
+
+  // En oscuro no hay sombra: las tarjetas se separan con el borde y la superficie
+  --color-sombra: light-dark(rgb(16 24 32 / 0.08), transparent);
 
   /* Derivados de la paleta */
   --color-superficie-hover: color-mix(in oklab, var(--color-texto) 6%, var(--color-superficie));
@@ -47,7 +54,9 @@
 
   /* Bordes */
   --radio: 6px;
+  --radio-tarjeta: 16px;
   --borde: 1px solid var(--color-borde);
+  --sombra-tarjeta: 0 1px 3px var(--color-sombra);
   --borde-campo: 1px solid var(--color-borde-campo);
 
   /* Medidas del layout */

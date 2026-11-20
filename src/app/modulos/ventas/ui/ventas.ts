@@ -1,33 +1,22 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Carga } from '../../../nucleo/esqueleto/carga';
 import { EsqueletoListado } from '../../../nucleo/esqueleto/esqueleto-listado';
+import { EstadoError } from '../../../nucleo/estados/estado-error';
 import { ListarVentas } from '../aplicacion/listar-ventas';
 import type { Venta } from '../dominio/venta';
-
-type EstadoCarga = 'cargando' | 'listo' | 'error';
 
 @Component({
   selector: 'app-ventas',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [EsqueletoListado],
+  imports: [EsqueletoListado, EstadoError],
   templateUrl: './ventas.html',
 })
 export class Ventas {
   private readonly listarVentas = inject(ListarVentas);
 
-  protected readonly estado = signal<EstadoCarga>('cargando');
-  protected readonly ventas = signal<Venta[]>([]);
+  protected readonly carga = new Carga<Venta[]>(() => this.listarVentas.ejecutar());
 
   constructor() {
-    this.cargar();
-  }
-
-  private async cargar(): Promise<void> {
-    try {
-      this.ventas.set(await this.listarVentas.ejecutar());
-      this.estado.set('listo');
-    } catch (error) {
-      console.error('No se pudieron cargar las ventas', error);
-      this.estado.set('error');
-    }
+    this.carga.cargar();
   }
 }

@@ -1,39 +1,59 @@
-/* Bloques de carga (skeleton) con animación de pulso */
+/* Esqueleto de carga: color base con un brillo que lo recorre de izquierda a derecha */
 .esqueleto {
   display: block;
-  background-color: var(--color-borde);
+  flex-shrink: 0;
+  max-inline-size: 100%;
+  background-color: var(--color-esqueleto-base);
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-esqueleto-brillo) 50%,
+    transparent 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 200% 100%;
   border-radius: var(--radio);
-  animation: esqueleto-pulso 1.5s ease-in-out infinite;
+  animation: esqueleto-brillo 1.4s ease-in-out infinite;
 }
 
-.esqueleto--titulo {
-  inline-size: min(40%, 240px);
-  block-size: 2rem;
+// Ocupa el alto de una línea del texto que reemplaza, pero pinta solo la barra central
+.esqueleto--texto {
+  padding-block: 0.22lh;
+  background-clip: content-box;
+  background-origin: content-box;
+  border-radius: 4px;
 }
 
-.esqueleto--linea {
-  inline-size: 100%;
-  block-size: 1rem;
+.esqueleto--circulo {
+  border-radius: 50%;
 }
 
-.esqueleto--corta {
-  inline-size: 60%;
-}
+@keyframes esqueleto-brillo {
+  from {
+    background-position: 150% 0;
+  }
 
-.esqueleto--bloque {
-  inline-size: 100%;
-  block-size: 160px;
-}
-
-@keyframes esqueleto-pulso {
-  50% {
-    opacity: 0.4;
+  to {
+    background-position: -50% 0;
   }
 }
 
-/* Sin animación si el sistema pide reducir el movimiento */
+// Sin movimiento: color fijo
 @media (prefers-reduced-motion: reduce) {
   .esqueleto {
+    background-image: none;
     animation: none;
   }
+}
+
+@media (forced-colors: active) {
+  .esqueleto {
+    outline: 1px solid GrayText;
+    outline-offset: -1px;
+  }
+}
+
+/* Zona de carga: durante el umbral reserva el espacio sin mostrarse */
+.zona-carga--oculta {
+  visibility: hidden;
 }

@@ -1,0 +1,49 @@
+@switch (carga.estado()) {
+  @case ('listo') {
+    @if (carga.datos(); as indicador) {
+      <div class="indicador__cabecera">
+        <h3 class="indicador__titulo">{{ indicador.titulo }}</h3>
+        <button
+          class="indicador__mover"
+          type="button"
+          [attr.data-mover]="indicador.id"
+          [attr.aria-label]="'Mover ' + indicador.titulo"
+          aria-describedby="ayuda-mover"
+          (pointerdown)="agarrar.emit($event)"
+          (keydown)="alPulsarTecla($event)"
+        >
+          <app-icono nombre="arrastrar" [tamano]="18" />
+        </button>
+      </div>
+      <p
+        class="indicador__valor"
+        [class.indicador__valor--cero]="indicador.valor === 0"
+        [class.indicador__valor--aviso]="indicador.valor !== 0 && indicador.atencion === 'aviso'"
+        [class.indicador__valor--error]="indicador.valor !== 0 && indicador.atencion === 'error'"
+      >
+        {{ valorFormateado() }}
+      </p>
+      <div class="indicador__barra" [attr.data-atencion]="indicador.atencion" aria-hidden="true">
+        <span [style.inline-size.%]="indicador.progreso * 100"></span>
+      </div>
+      <p class="indicador__apoyo">{{ indicador.apoyo }}</p>
+    }
+  }
+  @case ('error') {
+    <div class="indicador__cabecera">
+      <h3 class="indicador__titulo">{{ titulo() }}</h3>
+    </div>
+    <app-estado-error mensaje="No se pudo cargar." (reintentar)="carga.cargar()" />
+  }
+  <!-- Esqueleto: sin el botón de mover mientras carga -->
+  @default {
+    <app-zona-carga [visible]="carga.esqueletoVisible()" [texto]="'Cargando ' + titulo() + '…'">
+      <div class="indicador__cabecera">
+        <app-esqueleto class="indicador__titulo" ancho="7rem" />
+      </div>
+      <app-esqueleto class="indicador__valor" ancho="9rem" />
+      <app-esqueleto class="indicador__barra-esqueleto" variante="rectangulo" alto="6px" />
+      <div class="indicador__apoyo"><app-esqueleto ancho="75%" /></div>
+    </app-zona-carga>
+  }
+}

@@ -14,17 +14,7 @@
       <app-icono nombre="menu" />
     </button>
 
-    <!-- Tema: luna en claro (pasa a oscuro), sol en oscuro (pasa a claro) -->
-    <button class="boton-icono" type="button" (click)="tema.alternar()">
-      <span data-tema="claro">
-        <app-icono nombre="luna" />
-        <span class="solo-lector">Cambiar a tema oscuro</span>
-      </span>
-      <span data-tema="oscuro">
-        <app-icono nombre="sol" />
-        <span class="solo-lector">Cambiar a tema claro</span>
-      </span>
-    </button>
+    <app-boton-tema />
 
     <p class="menu-superior__usuario">
       <app-icono nombre="usuario" />

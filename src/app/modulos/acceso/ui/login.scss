@@ -1,10 +1,17 @@
 /* Página de acceso */
 .acceso {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   min-block-size: 100dvh;
-  padding: var(--espacio-4);
+  padding: calc(var(--espacio-8) + 40px) var(--espacio-4) var(--espacio-8);
+}
+
+.acceso__tema {
+  position: absolute;
+  inset-block-start: var(--espacio-4);
+  inset-inline-end: var(--espacio-4);
 }
 
 .acceso__tarjeta {
@@ -14,9 +21,6 @@
   inline-size: 100%;
   max-inline-size: 400px;
   padding: var(--espacio-8) var(--espacio-6);
-  background-color: var(--color-superficie);
-  border: var(--borde);
-  border-radius: var(--radio);
 }
 
 .acceso__logo {
@@ -28,6 +32,27 @@
   margin-block-start: calc(var(--espacio-2) * -1);
   text-align: center;
   color: var(--color-texto-secundario);
+}
+
+.acceso__campos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-4);
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+// La casilla queda encima del botón, con más aire antes de él
+.acceso__ingresar {
+  inline-size: 100%;
+  margin-block-start: var(--espacio-2);
+}
+
+.acceso__fallo {
+  color: var(--color-error);
+  text-align: center;
 }
 
 /* Campos */
@@ -50,16 +75,18 @@
   inline-size: 100%;
   min-block-size: 44px;
   padding: var(--espacio-2) var(--espacio-3);
-  background-color: var(--color-fondo);
+  background-color: var(--color-campo);
   border: var(--borde-campo);
   border-radius: var(--radio);
+  transition: border-color 0.15s ease;
 
-  &:hover {
+  &:hover:not(:disabled) {
     border-color: var(--color-texto);
   }
 
   &:disabled {
-    opacity: 0.5;
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 
   .campo__grupo & {
@@ -79,7 +106,7 @@
   border: 0;
   border-radius: var(--radio);
 
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: var(--color-superficie-hover);
   }
 }
@@ -97,22 +124,58 @@
     margin: 0;
     accent-color: var(--color-acento);
   }
+
+  &:has(input:disabled) {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 }
 
-/* Botón principal */
-.boton-principal {
-  min-block-size: 44px;
+/* Acceso de prueba */
+.prueba {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-2);
+  padding-block-start: var(--espacio-4);
+  border-block-start: var(--borde);
+}
+
+.prueba__titulo {
+  font-size: var(--texto-sm);
   font-weight: 600;
-  color: var(--color-sobre-acento);
-  background-color: var(--color-acento);
-  border: 1px solid var(--color-acento);
-  border-radius: var(--radio);
+  line-height: 1.5;
+  color: var(--color-texto-secundario);
+}
 
-  &:hover {
-    opacity: 0.85;
-  }
+.prueba__fila {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espacio-2);
+}
 
-  &:active {
-    opacity: 0.7;
-  }
+.prueba__usuario {
+  font-size: var(--texto-sm);
+}
+
+// Ancho fijo para que «Copiar» y «Copiado» no muevan la fila
+.prueba__copiar {
+  min-inline-size: 7.5rem;
+  margin-inline-start: auto;
+}
+
+/* Piezas del esqueleto que imitan el texto centrado */
+.acceso__esqueleto-logo {
+  margin-inline: auto;
+  font-size: var(--texto-xl);
+  line-height: 1.2;
+}
+
+.acceso__esqueleto-centro {
+  margin-inline: auto;
+  margin-block-start: calc(var(--espacio-2) * -1);
+}
+
+.acceso__esqueleto-casilla {
+  font-size: var(--texto-sm);
 }

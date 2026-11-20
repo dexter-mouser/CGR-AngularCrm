@@ -1,0 +1,28 @@
+/* Paneles del Inicio (Ventas de la semana y Últimas ventas) */
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-4);
+  block-size: 100%;
+  padding: var(--espacio-4) var(--espacio-6) var(--espacio-6);
+}
+
+.panel__titulo {
+  font-size: 1.125rem;
+  line-height: 1.5;
+}
+
+// Alto mínimo común a datos, esqueleto, vacío y error para que el panel no salte
+.panel__contenido {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  min-block-size: 220px;
+}
+
+@media (width < 768px) {
+  .panel {
+    padding: var(--espacio-4);
+  }
+}

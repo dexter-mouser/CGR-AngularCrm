@@ -8,7 +8,7 @@ import {
   Router,
   RouterOutlet,
 } from '@angular/router';
-import { UMBRAL_ESQUELETO_PAGINA_MS } from '../../config/general';
+import { UMBRAL_ESQUELETO_MS } from '../../config/general';
 import { EsqueletoPagina } from '../esqueleto/esqueleto-pagina';
 import { MenuLateral } from './menu-lateral/menu-lateral';
 import { MenuSuperior } from './menu-superior/menu-superior';
@@ -98,7 +98,7 @@ export class Layout {
           clearTimeout(this.temporizador);
           this.temporizador = setTimeout(
             () => this.cargandoPagina.set(true),
-            UMBRAL_ESQUELETO_PAGINA_MS,
+            UMBRAL_ESQUELETO_MS,
           );
         } else if (
           evento instanceof NavigationEnd ||

@@ -1,25 +1,28 @@
 <h1>Ventas</h1>
 
-<section class="listado" aria-labelledby="titulo-ventas">
+<section class="listado" aria-labelledby="titulo-ventas" [attr.aria-busy]="carga.estaCargando()">
   <h2 id="titulo-ventas">Ventas registradas</h2>
 
-  @switch (estado()) {
-    @case ('cargando') {
-      <app-esqueleto-listado />
-    }
-    @case ('error') {
-      <p class="listado__aviso" role="alert">No se pudieron cargar los registros.</p>
-    }
-    @default {
-      @if (ventas().length === 0) {
+  @switch (carga.estado()) {
+    @case ('listo') {
+      @let ventas = carga.datos() ?? [];
+      @if (ventas.length === 0) {
         <p class="listado__aviso">Sin registros</p>
       } @else {
         <ul class="listado__lista">
-          @for (venta of ventas(); track venta.id) {
-            <li>{{ venta.nombre }}</li>
+          @for (registro of ventas; track registro.id) {
+            <li>{{ registro.nombre }}</li>
           }
         </ul>
       }
+    }
+    @case ('error') {
+      <div class="listado__aviso">
+        <app-estado-error mensaje="No se pudieron cargar los registros." (reintentar)="carga.cargar()" />
+      </div>
+    }
+    @default {
+      <app-esqueleto-listado [visible]="carga.esqueletoVisible()" />
     }
   }
 </section>

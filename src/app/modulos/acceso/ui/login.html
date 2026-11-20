@@ -1,52 +1,145 @@
 <main class="acceso">
-  <form class="acceso__tarjeta" (submit)="ingresar($event)">
-    <h1 class="acceso__logo">{{ nombreAplicacion }}</h1>
-    <p class="acceso__subtitulo">Ingresa para continuar</p>
+  <div class="acceso__tema">
+    <app-boton-tema />
+  </div>
 
-    <div class="campo">
-      <label class="campo__etiqueta" for="usuario">Usuario</label>
-      <input
-        class="campo__control"
-        id="usuario"
-        name="usuario"
-        type="text"
-        autocomplete="username"
-        autocapitalize="none"
-        autocorrect="off"
-        spellcheck="false"
-        enterkeyhint="next"
-      />
-    </div>
+  <form
+    class="acceso__tarjeta tarjeta"
+    [attr.aria-busy]="carga.estaCargando() || ingresando()"
+    (submit)="ingresar($event)"
+  >
+    @switch (carga.estado()) {
+      @case ('listo') {
+        @if (carga.datos(); as configuracion) {
+          <h1 class="acceso__logo">{{ configuracion.nombreTienda }}</h1>
+          <p class="acceso__subtitulo">Ingresa para continuar</p>
 
-    <div class="campo">
-      <label class="campo__etiqueta" for="clave">Clave</label>
-      <div class="campo__grupo">
-        <input
-          class="campo__control"
-          id="clave"
-          name="clave"
-          [type]="claveVisible() ? 'text' : 'password'"
-          autocomplete="current-password"
-          enterkeyhint="done"
+          <fieldset class="acceso__campos" [disabled]="ingresando()">
+            <legend class="solo-lector">Datos de ingreso</legend>
+
+            <div class="campo">
+              <label class="campo__etiqueta" for="usuario">Usuario</label>
+              <input
+                class="campo__control"
+                id="usuario"
+                name="usuario"
+                type="text"
+                autocomplete="username"
+                autocapitalize="none"
+                autocorrect="off"
+                spellcheck="false"
+                enterkeyhint="next"
+                [value]="usuario()"
+                (input)="actualizarUsuario($event)"
+              />
+            </div>
+
+            <div class="campo">
+              <label class="campo__etiqueta" for="clave">Clave</label>
+              <div class="campo__grupo">
+                <input
+                  class="campo__control"
+                  id="clave"
+                  name="clave"
+                  [type]="claveVisible() ? 'text' : 'password'"
+                  autocomplete="current-password"
+                  enterkeyhint="done"
+                />
+                <button
+                  class="campo__ojo"
+                  type="button"
+                  aria-controls="clave"
+                  aria-label="Mostrar clave"
+                  [attr.aria-pressed]="claveVisible()"
+                  (click)="alternarClave()"
+                >
+                  <app-icono [nombre]="claveVisible() ? 'ojo-tachado' : 'ojo'" />
+                </button>
+              </div>
+            </div>
+
+            <label class="casilla">
+              <input type="checkbox" name="mantener-sesion" />
+              Mantener la sesión
+            </label>
+
+            <button class="boton-principal acceso__ingresar" type="submit">
+              @if (ingresando()) {
+                <span class="giro" aria-hidden="true"></span>
+                Ingresando…
+              } @else {
+                Ingresar
+              }
+            </button>
+          </fieldset>
+
+          @if (falloIngreso()) {
+            <p class="acceso__fallo" role="alert">No se pudo ingresar. Intenta de nuevo.</p>
+          }
+
+          <section class="prueba" aria-labelledby="titulo-prueba">
+            <h2 class="prueba__titulo" id="titulo-prueba">Acceso de prueba</h2>
+            <div class="prueba__fila">
+              <code class="prueba__usuario">{{ configuracion.accesoPrueba.usuario }}</code>
+              <span class="etiqueta etiqueta-info">{{ configuracion.accesoPrueba.rol }}</span>
+              <button
+                class="boton-secundario prueba__copiar"
+                type="button"
+                [disabled]="ingresando()"
+                (click)="copiarUsuario(configuracion.accesoPrueba.usuario)"
+              >
+                @if (copiado()) {
+                  Copiado
+                  <app-icono nombre="check" [tamano]="16" />
+                } @else {
+                  <app-icono nombre="copiar" [tamano]="16" />
+                  Copiar
+                }
+              </button>
+            </div>
+            <p class="solo-lector" role="status">
+              {{ copiado() ? 'Usuario de prueba copiado en el campo Usuario' : '' }}
+            </p>
+          </section>
+        }
+      }
+
+      @case ('error') {
+        <h1 class="acceso__logo">Ingresar</h1>
+        <app-estado-error
+          mensaje="No se pudo cargar la configuración de la tienda."
+          (reintentar)="carga.cargar()"
         />
-        <button
-          class="campo__ojo"
-          type="button"
-          aria-controls="clave"
-          aria-label="Mostrar clave"
-          [attr.aria-pressed]="claveVisible()"
-          (click)="alternarClave()"
-        >
-          <app-icono [nombre]="claveVisible() ? 'ojo-tachado' : 'ojo'" />
-        </button>
-      </div>
-    </div>
+      }
 
-    <label class="casilla">
-      <input type="checkbox" name="mantener-sesion" />
-      Mantener la sesión
-    </label>
+      <!-- Esqueleto con la misma distribución que el formulario -->
+      @default {
+        <h1 class="solo-lector">Ingresar</h1>
+        <app-zona-carga [visible]="carga.esqueletoVisible()">
+          <app-esqueleto class="acceso__esqueleto-logo" ancho="9rem" />
+          <app-esqueleto class="acceso__esqueleto-centro" ancho="11rem" />
 
-    <button class="boton-principal" type="submit">Ingresar</button>
+          <div class="acceso__campos">
+            @for (campo of [1, 2]; track campo) {
+              <div class="campo">
+                <app-esqueleto class="campo__etiqueta" ancho="4rem" />
+                <app-esqueleto variante="rectangulo" alto="44px" />
+              </div>
+            }
+            <app-esqueleto class="acceso__esqueleto-casilla" ancho="9rem" />
+            <app-esqueleto class="acceso__ingresar" variante="boton" ancho="100%" />
+          </div>
+
+          <div class="prueba">
+            <app-esqueleto class="prueba__titulo" ancho="7rem" />
+            <div class="prueba__fila">
+              <app-esqueleto ancho="8rem" />
+              <app-esqueleto ancho="5rem" alto="24px" />
+              <app-esqueleto class="prueba__copiar" variante="boton" alto="40px" />
+            </div>
+          </div>
+        </app-zona-carga>
+      }
+    }
   </form>
 </main>

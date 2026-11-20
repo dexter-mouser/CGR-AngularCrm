@@ -1,4 +1,10 @@
 import { Provider } from '@angular/core';
+import { AccesoEnMemoria } from '../modulos/acceso/adaptadores/acceso-en-memoria';
+import { Ingresar, ObtenerConfiguracionAcceso } from '../modulos/acceso/aplicacion/acceso';
+import { ACCESO_REPOSITORIO, AccesoRepositorio } from '../modulos/acceso/puertos/acceso-repositorio';
+import { PanelEnMemoria } from '../modulos/inicio/adaptadores/panel-en-memoria';
+import { ConsultarPanel } from '../modulos/inicio/aplicacion/consultar-panel';
+import { PANEL_REPOSITORIO, PanelRepositorio } from '../modulos/inicio/puertos/panel-repositorio';
 import { ProductosEnMemoria } from '../modulos/inventario/adaptadores/productos-en-memoria';
 import { ListarProductos } from '../modulos/inventario/aplicacion/listar-productos';
 import {
@@ -14,6 +20,27 @@ import { VENTAS_REPOSITORIO, VentasRepositorio } from '../modulos/ventas/puertos
  * Para cambiar de fuente de datos (Supabase, API propia…) solo se cambia el `useClass`.
  */
 export const PROVEEDORES_POR_MODULO: Record<string, Provider[]> = {
+  acceso: [
+    { provide: ACCESO_REPOSITORIO, useClass: AccesoEnMemoria },
+    {
+      provide: ObtenerConfiguracionAcceso,
+      useFactory: (repositorio: AccesoRepositorio) => new ObtenerConfiguracionAcceso(repositorio),
+      deps: [ACCESO_REPOSITORIO],
+    },
+    {
+      provide: Ingresar,
+      useFactory: (repositorio: AccesoRepositorio) => new Ingresar(repositorio),
+      deps: [ACCESO_REPOSITORIO],
+    },
+  ],
+  inicio: [
+    { provide: PANEL_REPOSITORIO, useClass: PanelEnMemoria },
+    {
+      provide: ConsultarPanel,
+      useFactory: (repositorio: PanelRepositorio) => new ConsultarPanel(repositorio),
+      deps: [PANEL_REPOSITORIO],
+    },
+  ],
   inventario: [
     { provide: PRODUCTOS_REPOSITORIO, useClass: ProductosEnMemoria },
     {

@@ -4,13 +4,19 @@
   color: var(--color-texto-secundario);
 }
 
-/* Listados de los módulos */
-.listado {
-  margin-block-start: var(--espacio-6);
-  padding: var(--espacio-4);
+/* Tarjeta: superficie con borde; en claro lleva una sombra leve */
+.tarjeta {
   background-color: var(--color-superficie);
   border: var(--borde);
-  border-radius: var(--radio);
+  border-radius: var(--radio-tarjeta);
+  box-shadow: var(--sombra-tarjeta);
+}
+
+/* Listados de los módulos */
+.listado {
+  @extend .tarjeta;
+  margin-block-start: var(--espacio-6);
+  padding: var(--espacio-4);
 }
 
 .listado__aviso {

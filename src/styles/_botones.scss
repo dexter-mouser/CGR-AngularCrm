@@ -1,0 +1,73 @@
+/* Botones compartidos */
+%boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espacio-2);
+  padding-inline: var(--espacio-4);
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: var(--radio);
+  transition:
+    background-color 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.boton-principal {
+  @extend %boton;
+  min-block-size: 44px;
+  color: var(--color-sobre-acento);
+  background-color: var(--color-acento);
+  border: 1px solid var(--color-acento);
+
+  &:hover:not(:disabled) {
+    opacity: 0.88;
+  }
+
+  &:active:not(:disabled) {
+    opacity: 0.75;
+  }
+
+  &:disabled {
+    opacity: 0.75;
+  }
+}
+
+.boton-secundario {
+  @extend %boton;
+  min-block-size: 40px;
+  color: var(--color-acento);
+  background-color: var(--color-superficie);
+  border: var(--borde-campo);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-superficie-hover);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--color-borde);
+  }
+}
+
+/* Indicador de trabajo dentro de un botón (decorativo: el texto del botón explica el estado) */
+.giro {
+  inline-size: 1em;
+  block-size: 1em;
+  border: 2px solid currentColor;
+  border-inline-end-color: transparent;
+  border-radius: 50%;
+  animation: giro 0.8s linear infinite;
+}
+
+@keyframes giro {
+  to {
+    rotate: 1turn;
+  }
+}
+
+// Con movimiento reducido gira despacio en lugar de detenerse, para que se note que sigue trabajando
+@media (prefers-reduced-motion: reduce) {
+  .giro {
+    animation-duration: 4s !important;
+  }
+}

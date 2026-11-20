@@ -1,4 +1,15 @@
 /* Etiquetas de estado: fondo suave y texto del color */
+.etiqueta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espacio-1);
+  padding: 2px var(--espacio-2);
+  font-size: var(--texto-xs);
+  font-weight: 600;
+  line-height: 1.5;
+  border-radius: 999px;
+}
+
 $estados: exito, error, aviso, info;
 
 @each $estado in $estados {
