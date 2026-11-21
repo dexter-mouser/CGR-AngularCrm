@@ -18,6 +18,11 @@ Abre `http://localhost:4200`. Para compilar la versión de producción (queda en
 npm run build
 ```
 
+## Publicación
+La app está publicada en GitHub Pages: https://dexter-mouser.github.io/CGR-AngularCrm/
+
+Cada push a `main` la compila y la publica con GitHub Actions (`.github/workflows/pages.yml`). La compilación usa `--base-href /CGR-AngularCrm/` y copia `index.html` como `404.html`, para que al recargar una ruta como `/ventas` Pages cargue la app y el router muestre la página pedida.
+
 ## Rutas
 | Ruta | Página |
 | --- | --- |
