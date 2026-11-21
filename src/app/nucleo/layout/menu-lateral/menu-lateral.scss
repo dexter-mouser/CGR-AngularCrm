@@ -1,29 +1,60 @@
-/* Menú lateral (escritorio) */
+/* Menú lateral (escritorio): marca, opciones, pie con ajustes y salida, y usuario */
 :host {
   position: sticky;
-  inset-block-start: var(--alto-menu-superior);
+  inset-block-start: 0;
   flex-shrink: 0;
-  block-size: calc(100dvh - var(--alto-menu-superior));
+  block-size: 100dvh;
 }
 
 .menu-lateral {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: var(--espacio-4);
   inline-size: var(--ancho-menu-lateral);
   block-size: 100%;
-  padding: var(--espacio-3) var(--espacio-2);
+  padding: var(--espacio-4) var(--espacio-3) var(--espacio-3);
+  overflow-x: hidden;
   overflow-y: auto;
-  background-color: var(--color-superficie);
+  background-color: var(--color-fondo-lateral);
   border-inline-end: var(--borde);
-  transition: inline-size 0.2s ease;
+  transition: inline-size var(--duracion-corta) var(--curva-suave);
 }
 
 .menu-lateral--recogido {
   inline-size: var(--ancho-menu-recogido);
+  padding-inline: var(--espacio-2);
 }
 
-.menu-lateral__lista {
+/* Marca */
+.menu-lateral__marca {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-3);
+  min-block-size: var(--alto-control);
+  padding-inline: var(--espacio-1);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-titulo);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.menu-lateral__logo {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  inline-size: 36px;
+  block-size: 36px;
+  font-weight: 700;
+  color: var(--color-acento-suave-texto);
+  background-color: var(--color-acento-suave);
+  border-radius: var(--radio);
+}
+
+/* Listas */
+.menu-lateral__lista,
+.menu-lateral__pie,
+.menu-lateral__submenu {
   display: flex;
   flex-direction: column;
   gap: var(--espacio-1);
@@ -32,19 +63,56 @@
   list-style: none;
 }
 
+.menu-lateral__lista {
+  position: relative;
+  flex: 1;
+}
+
+.menu-lateral__item {
+  position: relative;
+}
+
+// Hover espacial: un fondo gris que se desliza hasta la opción bajo el cursor
+.menu-lateral__indicador {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inline-size: var(--ancho, 0px);
+  block-size: var(--alto, 0px);
+  background-color: var(--color-superficie-hover);
+  border-radius: var(--radio);
+  opacity: 0;
+  pointer-events: none;
+  translate: var(--x, 0px) var(--y, 0px);
+  transition:
+    translate var(--duracion-corta) var(--curva-suave),
+    inline-size var(--duracion-corta) var(--curva-suave),
+    block-size var(--duracion-corta) var(--curva-suave),
+    opacity var(--duracion-corta) ease;
+}
+
+.menu-lateral__indicador--visible {
+  opacity: 1;
+}
+
+/* Opciones */
 .menu-lateral__enlace {
+  position: relative;
   display: flex;
   align-items: center;
   gap: var(--espacio-3);
-  min-block-size: 44px;
+  min-block-size: var(--alto-control);
   padding-inline: var(--espacio-3);
+  color: var(--color-texto-secundario);
   text-decoration: none;
   white-space: nowrap;
-  border: 1px solid transparent;
   border-radius: var(--radio);
+  transition:
+    color var(--duracion-corta) ease,
+    background-color var(--duracion-corta) ease;
 
   &:hover {
-    background-color: var(--color-superficie-hover);
+    color: var(--color-texto);
   }
 
   &:active {
@@ -52,34 +120,130 @@
   }
 }
 
-/* Opción activa: fondo invertido y texto en negrita (no solo color) */
+// Botón desplegable con el mismo aspecto que un enlace del menú
+.menu-lateral__desplegable {
+  inline-size: 100%;
+  font: inherit;
+  text-align: start;
+  background: transparent;
+  border: 0;
+}
+
+// El enlace de un módulo con submenú solo se usa en la barra inferior del celular
+.menu-lateral__enlace--solo-movil {
+  display: none;
+}
+
+/* Activo: fondo tonal con una línea de acento a la izquierda, y negrita (no solo color) */
 .menu-lateral__enlace--activo {
-  font-weight: 700;
-  color: var(--color-sobre-acento);
-  background-color: var(--color-acento);
+  font-weight: 600;
+  color: var(--color-acento-suave-texto);
+  background-color: var(--color-acento-suave);
+  box-shadow: inset 3px 0 0 var(--color-acento);
 
   &:hover {
-    background-color: var(--color-acento);
-    opacity: 0.85;
+    color: var(--color-acento-suave-texto);
   }
 }
 
-/* Recogido: solo iconos, el texto queda para lectores de pantalla */
-.menu-lateral--recogido .menu-lateral__enlace {
-  justify-content: center;
-  padding-inline: 0;
+/* Submenú: sangría con una línea a la izquierda */
+.menu-lateral__submenu {
+  margin-block: var(--espacio-1);
+  margin-inline-start: calc(var(--espacio-3) + 9px);
+  padding-inline-start: var(--espacio-3);
+  border-inline-start: var(--borde);
+
+  // Cerrado no ocupa espacio ni muestra la línea (sin esto, display: flex anula el atributo hidden)
+  &[hidden] {
+    display: none;
+  }
 }
 
-.menu-lateral--recogido .menu-lateral__texto {
-  position: absolute;
-  inline-size: 1px;
-  block-size: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
+.menu-lateral__subenlace {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-block-size: 36px;
+  padding-inline: var(--espacio-3);
+  font-size: var(--texto-sm);
+  color: var(--color-texto-secundario);
+  text-decoration: none;
+  border-radius: var(--radio);
+  transition: color var(--duracion-corta) ease;
+
+  &:hover {
+    color: var(--color-texto);
+  }
+}
+
+.menu-lateral__subenlace--activo {
+  font-weight: 600;
+  color: var(--color-acento-suave-texto);
+
+  &:hover {
+    color: var(--color-acento-suave-texto);
+  }
+}
+
+/* Pie: ajustes y cerrar sesión */
+.menu-lateral__pie .menu-lateral__enlace:hover:not(.menu-lateral__enlace--activo) {
+  background-color: var(--color-superficie-hover);
+}
+
+/* Usuario */
+.menu-lateral__usuario {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-3);
+  padding: var(--espacio-3) var(--espacio-1) 0;
+  font-size: var(--texto-sm);
+  font-weight: 600;
+  color: var(--color-titulo);
   white-space: nowrap;
+  border-block-start: var(--borde);
 }
 
-/* Celular: barra inferior fija */
+.menu-lateral__avatar {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  inline-size: 36px;
+  block-size: 36px;
+  font-size: var(--texto-xs);
+  font-weight: 700;
+  color: var(--color-neutro-texto);
+  background-color: var(--color-neutro-fondo);
+  border: 1px solid var(--color-neutro-borde);
+  border-radius: 50%;
+}
+
+/* Recogido: solo iconos, el texto queda para lectores de pantalla */
+.menu-lateral--recogido {
+  .menu-lateral__marca,
+  .menu-lateral__enlace,
+  .menu-lateral__usuario {
+    justify-content: center;
+    padding-inline: 0;
+  }
+
+  .menu-lateral__texto {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+@media (forced-colors: active) {
+  .menu-lateral__enlace--activo,
+  .menu-lateral__subenlace--activo {
+    outline: 2px solid Highlight;
+  }
+}
+
+/* Celular: barra inferior fija con los módulos, ajustes y salida (sin submenús) */
 @media (width < 768px) {
   :host {
     position: fixed;
@@ -92,6 +256,7 @@
   .menu-lateral,
   .menu-lateral--recogido {
     flex-direction: row;
+    gap: 0;
     inline-size: 100%;
     padding: var(--espacio-1);
     overflow: visible;
@@ -100,11 +265,22 @@
     transition: none;
   }
 
-  .menu-lateral__lista {
+  .menu-lateral__marca,
+  .menu-lateral__indicador,
+  .menu-lateral__desplegable,
+  .menu-lateral__submenu,
+  .menu-lateral__usuario {
+    display: none;
+  }
+
+  .menu-lateral__lista,
+  .menu-lateral__pie {
     display: contents;
   }
 
-  .menu-lateral__lista li {
+  .menu-lateral__lista li,
+  .menu-lateral__pie li {
+    display: flex;
     flex: 1 1 0;
   }
 
@@ -121,8 +297,12 @@
     white-space: normal;
   }
 
-  .menu-lateral__salir {
-    flex: 1 1 0;
+  .menu-lateral__enlace--activo {
+    box-shadow: inset 0 3px 0 var(--color-acento);
+  }
+
+  .menu-lateral__enlace--solo-movil {
+    display: flex;
   }
 
   .menu-lateral--recogido .menu-lateral__texto {

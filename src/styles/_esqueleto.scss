@@ -1,47 +1,33 @@
-/* Esqueleto de carga: color base con un brillo que lo recorre de izquierda a derecha */
+/* Esqueleto de carga: piezas grises que pulsan hasta que llegan los datos */
 .esqueleto {
   display: block;
   flex-shrink: 0;
   max-inline-size: 100%;
-  background-color: var(--color-esqueleto-base);
-  background-image: linear-gradient(
-    90deg,
-    transparent 0%,
-    var(--color-esqueleto-brillo) 50%,
-    transparent 100%
-  );
-  background-repeat: no-repeat;
-  background-size: 200% 100%;
+  background-color: var(--color-esqueleto);
   border-radius: var(--radio);
-  animation: esqueleto-brillo 1.4s ease-in-out infinite;
+  animation: esqueleto-pulso 1.4s ease-in-out infinite;
 }
 
 // Ocupa el alto de una línea del texto que reemplaza, pero pinta solo la barra central
 .esqueleto--texto {
   padding-block: 0.22lh;
   background-clip: content-box;
-  background-origin: content-box;
-  border-radius: 4px;
+  border-radius: 999px;
 }
 
 .esqueleto--circulo {
   border-radius: 50%;
 }
 
-@keyframes esqueleto-brillo {
-  from {
-    background-position: 150% 0;
-  }
-
-  to {
-    background-position: -50% 0;
+@keyframes esqueleto-pulso {
+  50% {
+    opacity: 0.45;
   }
 }
 
 // Sin movimiento: color fijo
 @media (prefers-reduced-motion: reduce) {
   .esqueleto {
-    background-image: none;
     animation: none;
   }
 }

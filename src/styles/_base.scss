@@ -26,6 +26,12 @@ p {
   margin: 0;
 }
 
+h1,
+h2,
+h3 {
+  color: var(--color-titulo);
+}
+
 h1 {
   font-size: var(--texto-xl);
   line-height: 1.2;
@@ -55,7 +61,7 @@ button:disabled {
   opacity: 0.5;
 }
 
-/* Foco visible con contorno negro (blanco en tema oscuro) */
+/* Foco visible con el color de acento */
 :focus-visible {
   outline: 2px solid var(--color-foco);
   outline-offset: 2px;

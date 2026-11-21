@@ -1,6 +1,7 @@
 import { computed, signal } from '@angular/core';
 import { MINIMO_ESQUELETO_MS, UMBRAL_ESQUELETO_MS } from '../../config/general';
 import { esperar } from '../utilidades/esperar';
+import { iniciarActividad } from './actividad';
 
 /*
  * Estado de carga de un bloque:
@@ -28,10 +29,12 @@ export class Carga<T> {
   async cargar(): Promise<void> {
     const intentoActual = ++this.intento;
     let visibleDesde: number | null = null;
+    let terminarActividad: (() => void) | null = null;
 
     this.estado.set('esperando');
     const temporizador = setTimeout(() => {
       visibleDesde = performance.now();
+      terminarActividad = iniciarActividad();
       this.estado.set('cargando');
     }, UMBRAL_ESQUELETO_MS);
 
@@ -46,6 +49,9 @@ export class Carga<T> {
       await this.completarMinimo(temporizador, visibleDesde);
       if (intentoActual !== this.intento) return;
       this.estado.set('error');
+    } finally {
+      // Apaga la barra de carga aunque otro intento haya reemplazado a este
+      (terminarActividad as (() => void) | null)?.();
     }
   }
 

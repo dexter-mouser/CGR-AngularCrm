@@ -9,11 +9,12 @@ import {
   RouterOutlet,
 } from '@angular/router';
 import { UMBRAL_ESQUELETO_MS } from '../../config/general';
+import { iniciarActividad } from '../esqueleto/actividad';
 import { EsqueletoPagina } from '../esqueleto/esqueleto-pagina';
 import { MenuLateral } from './menu-lateral/menu-lateral';
 import { MenuSuperior } from './menu-superior/menu-superior';
 
-// Estructura de las páginas internas: menú superior, menú lateral y contenido
+// Estructura de las páginas internas: menú lateral, cabecera con migas y contenido
 @Component({
   selector: 'app-layout',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -22,15 +23,15 @@ import { MenuSuperior } from './menu-superior/menu-superior';
     <button class="saltar-contenido" type="button" (click)="contenido.focus()">
       Saltar al contenido
     </button>
-    <app-menu-superior />
-    <div class="layout__cuerpo">
-      <app-menu-lateral />
+    <app-menu-lateral />
+    <div class="layout__columna">
+      <app-menu-superior />
       <main class="layout__contenido" tabindex="-1" #contenido>
         <div class="contenedor">
           @if (cargandoPagina()) {
             <app-esqueleto-pagina />
           }
-          <div [hidden]="cargandoPagina()">
+          <div class="layout__pagina" [hidden]="cargandoPagina()">
             <router-outlet />
           </div>
         </div>
@@ -40,19 +41,19 @@ import { MenuSuperior } from './menu-superior/menu-superior';
   styles: `
     :host {
       display: flex;
-      flex-direction: column;
       min-block-size: 100dvh;
     }
 
-    .layout__cuerpo {
+    .layout__columna {
       display: flex;
       flex: 1;
+      flex-direction: column;
+      min-inline-size: 0;
     }
 
     .layout__contenido {
       flex: 1;
-      min-inline-size: 0;
-      padding: var(--espacio-6) var(--espacio-4);
+      padding: var(--espacio-6) var(--espacio-6) var(--espacio-8);
 
       &:focus {
         outline: none;
@@ -66,9 +67,10 @@ import { MenuSuperior } from './menu-superior/menu-superior';
       inset-inline-start: var(--espacio-2);
       z-index: 20;
       padding: var(--espacio-2) var(--espacio-3);
-      border: 0;
-      color: var(--color-sobre-acento);
-      background-color: var(--color-acento);
+      font-weight: 600;
+      color: var(--color-acento-suave-texto);
+      background-color: var(--color-acento-suave);
+      border: 1px solid var(--color-acento-suave-borde);
       border-radius: var(--radio);
       translate: 0 -200%;
 
@@ -80,7 +82,8 @@ import { MenuSuperior } from './menu-superior/menu-superior';
     /* Celular: espacio para la barra inferior */
     @media (width < 768px) {
       .layout__contenido {
-        padding-block-end: calc(var(--alto-barra-inferior) + var(--espacio-6));
+        padding: var(--espacio-4) var(--espacio-4)
+          calc(var(--alto-barra-inferior) + var(--espacio-6));
       }
     }
   `,
@@ -88,26 +91,33 @@ import { MenuSuperior } from './menu-superior/menu-superior';
 export class Layout {
   protected readonly cargandoPagina = signal(false);
   private temporizador: ReturnType<typeof setTimeout> | undefined;
+  private terminarActividad: (() => void) | null = null;
 
   constructor() {
-    // Muestra el esqueleto solo si el cambio de página tarda más que el umbral
+    // Muestra el esqueleto y la barra de carga solo si el cambio de página tarda más que el umbral
     inject(Router)
       .events.pipe(takeUntilDestroyed())
       .subscribe((evento) => {
         if (evento instanceof NavigationStart) {
-          clearTimeout(this.temporizador);
-          this.temporizador = setTimeout(
-            () => this.cargandoPagina.set(true),
-            UMBRAL_ESQUELETO_MS,
-          );
+          this.terminarCarga();
+          this.temporizador = setTimeout(() => {
+            this.terminarActividad = iniciarActividad();
+            this.cargandoPagina.set(true);
+          }, UMBRAL_ESQUELETO_MS);
         } else if (
           evento instanceof NavigationEnd ||
           evento instanceof NavigationCancel ||
           evento instanceof NavigationError
         ) {
-          clearTimeout(this.temporizador);
-          this.cargandoPagina.set(false);
+          this.terminarCarga();
         }
       });
+  }
+
+  private terminarCarga(): void {
+    clearTimeout(this.temporizador);
+    this.terminarActividad?.();
+    this.terminarActividad = null;
+    this.cargandoPagina.set(false);
   }
 }

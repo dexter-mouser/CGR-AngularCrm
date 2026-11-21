@@ -1,22 +1,14 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { Carga } from '../../../nucleo/esqueleto/carga';
-import { EsqueletoListado } from '../../../nucleo/esqueleto/esqueleto-listado';
-import { EstadoError } from '../../../nucleo/estados/estado-error';
-import { ListarProductos } from '../aplicacion/listar-productos';
-import type { Producto } from '../dominio/producto';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Proximamente } from '../../../nucleo/estados/proximamente';
 
+// Inventario: en construcción
 @Component({
   selector: 'app-inventario',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [EsqueletoListado, EstadoError],
-  templateUrl: './inventario.html',
+  imports: [Proximamente],
+  template: `
+    <h1>Inventario</h1>
+    <app-proximamente />
+  `,
 })
-export class Inventario {
-  private readonly listarProductos = inject(ListarProductos);
-
-  protected readonly carga = new Carga<Producto[]>(() => this.listarProductos.ejecutar());
-
-  constructor() {
-    this.carga.cargar();
-  }
-}
+export class Inventario {}

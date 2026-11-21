@@ -1,4 +1,4 @@
-/* Etiquetas de estado: fondo suave y texto del color */
+/* Etiquetas: de acento (tonal), neutras (gris) y de estado */
 .etiqueta {
   display: inline-flex;
   align-items: center;
@@ -7,7 +7,17 @@
   font-size: var(--texto-xs);
   font-weight: 600;
   line-height: 1.5;
-  border-radius: 999px;
+  border-radius: var(--radio);
+}
+
+.etiqueta-acento {
+  color: var(--color-acento-suave-texto);
+  background-color: var(--color-acento-suave);
+}
+
+.etiqueta-neutra {
+  color: var(--color-neutro-texto);
+  background-color: var(--color-neutro-fondo);
 }
 
 $estados: exito, error, aviso, info;

@@ -4,8 +4,80 @@
   aria-label="Menú principal"
   [class.menu-lateral--recogido]="estado.estaRecogido()"
 >
-  <ul class="menu-lateral__lista">
-    @for (modulo of modulos; track modulo.nombre) {
+  <a class="menu-lateral__marca" routerLink="/inicio" [attr.title]="estado.estaRecogido() ? nombreAplicacion : null">
+    <span class="menu-lateral__logo" aria-hidden="true">{{ inicial }}</span>
+    <span class="menu-lateral__texto menu-lateral__nombre">{{ nombreAplicacion }}</span>
+  </a>
+
+  <!-- Indicador gris que sigue al cursor entre las opciones -->
+  <ul class="menu-lateral__lista" #lista (pointerleave)="ocultarIndicador()">
+    <li
+      class="menu-lateral__indicador"
+      aria-hidden="true"
+      [class.menu-lateral__indicador--visible]="indicador().visible"
+      [style.--x.px]="indicador().x"
+      [style.--y.px]="indicador().y"
+      [style.--ancho.px]="indicador().ancho"
+      [style.--alto.px]="indicador().alto"
+    ></li>
+
+    @for (modulo of principales; track modulo.nombre) {
+      @let conSubmenu = !!modulo.submenu && !estado.estaRecogido();
+      <li class="menu-lateral__item">
+        @if (conSubmenu) {
+          <!-- Desplegable: abre o cierra su submenú sin navegar -->
+          <button
+            class="menu-lateral__enlace menu-lateral__desplegable"
+            type="button"
+            [class.menu-lateral__enlace--activo]="estaEnModulo(modulo)"
+            [attr.aria-expanded]="estaAbierto(modulo)"
+            [attr.aria-controls]="'submenu-' + modulo.nombre"
+            (click)="alternarSubmenu(modulo)"
+            (pointerenter)="moverIndicador($event, lista)"
+          >
+            <app-icono [nombre]="modulo.menu.icono" />
+            <span class="menu-lateral__texto">{{ modulo.menu.etiqueta }}</span>
+          </button>
+        }
+
+        <!-- Enlace directo: siempre sin submenú; con submenú solo en celular -->
+        <a
+          class="menu-lateral__enlace"
+          [class.menu-lateral__enlace--solo-movil]="conSubmenu"
+          [routerLink]="'/' + modulo.ruta"
+          routerLinkActive="menu-lateral__enlace--activo"
+          ariaCurrentWhenActive="page"
+          [attr.title]="estado.estaRecogido() ? modulo.menu.etiqueta : null"
+          (pointerenter)="moverIndicador($event, lista)"
+        >
+          <app-icono [nombre]="modulo.menu.icono" />
+          <span class="menu-lateral__texto">{{ modulo.menu.etiqueta }}</span>
+        </a>
+
+        @if (conSubmenu) {
+          <ul class="menu-lateral__submenu" [id]="'submenu-' + modulo.nombre" [hidden]="!estaAbierto(modulo)">
+            @for (subpagina of modulo.submenu; track subpagina.etiqueta) {
+              <li>
+                <a
+                  class="menu-lateral__subenlace"
+                  [routerLink]="rutaSubpagina(modulo, subpagina.ruta)"
+                  routerLinkActive="menu-lateral__subenlace--activo"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  ariaCurrentWhenActive="page"
+                  (pointerenter)="moverIndicador($event, lista)"
+                >
+                  {{ subpagina.etiqueta }}
+                </a>
+              </li>
+            }
+          </ul>
+        }
+      </li>
+    }
+  </ul>
+
+  <ul class="menu-lateral__pie">
+    @for (modulo of inferiores; track modulo.nombre) {
       <li>
         <a
           class="menu-lateral__enlace"
@@ -19,14 +91,20 @@
         </a>
       </li>
     }
+    <li>
+      <a
+        class="menu-lateral__enlace"
+        routerLink="/"
+        [attr.title]="estado.estaRecogido() ? 'Cerrar sesión' : null"
+      >
+        <app-icono nombre="salir" />
+        <span class="menu-lateral__texto">Cerrar sesión</span>
+      </a>
+    </li>
   </ul>
 
-  <a
-    class="menu-lateral__enlace menu-lateral__salir"
-    routerLink="/"
-    [attr.title]="estado.estaRecogido() ? 'Cerrar sesión' : null"
-  >
-    <app-icono nombre="salir" />
-    <span class="menu-lateral__texto">Cerrar sesión</span>
-  </a>
+  <p class="menu-lateral__usuario" [attr.title]="estado.estaRecogido() ? usuario : null">
+    <span class="menu-lateral__avatar" aria-hidden="true">{{ inicialesUsuario }}</span>
+    <span class="menu-lateral__texto menu-lateral__nombre-usuario">{{ usuario }}</span>
+  </p>
 </nav>

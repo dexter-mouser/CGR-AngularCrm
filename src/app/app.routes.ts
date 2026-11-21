@@ -3,13 +3,27 @@ import { NOMBRE_APLICACION } from './config/general';
 import { MODULOS_ACTIVOS } from './config/modulos';
 import { PROVEEDORES_POR_MODULO } from './config/proveedores';
 
-// Rutas de los módulos activos, dentro del layout
-const rutasDeModulos: Routes = MODULOS_ACTIVOS.map((modulo) => ({
-  path: modulo.ruta,
-  title: `${modulo.menu.etiqueta} | ${NOMBRE_APLICACION}`,
-  loadComponent: modulo.cargarPagina,
-  providers: PROVEEDORES_POR_MODULO[modulo.nombre] ?? [],
-}));
+// Rutas de los módulos activos y de sus subpáginas, dentro del layout
+const rutasDeModulos: Routes = MODULOS_ACTIVOS.flatMap((modulo) => {
+  const providers = PROVEEDORES_POR_MODULO[modulo.nombre] ?? [];
+  const principal = {
+    path: modulo.ruta,
+    title: `${modulo.menu.etiqueta} | ${NOMBRE_APLICACION}`,
+    loadComponent: modulo.cargarPagina,
+    providers,
+    data: { miga: modulo.menu.etiqueta },
+  };
+  const subpaginas = (modulo.submenu ?? [])
+    .filter((subpagina) => subpagina.ruta !== '')
+    .map((subpagina) => ({
+      path: `${modulo.ruta}/${subpagina.ruta}`,
+      title: `${subpagina.etiqueta} | ${NOMBRE_APLICACION}`,
+      loadComponent: subpagina.cargarPagina ?? modulo.cargarPagina,
+      providers,
+      data: { miga: subpagina.etiqueta },
+    }));
+  return [principal, ...subpaginas];
+});
 
 export const routes: Routes = [
   {
@@ -27,6 +41,7 @@ export const routes: Routes = [
       {
         path: 'ubicacion',
         title: `Ubicación espacial | ${NOMBRE_APLICACION}`,
+        data: { miga: 'Ubicación espacial' },
         loadComponent: () => import('./modulos/ubicacion/ui/ubicacion').then((m) => m.Ubicacion),
       },
     ],

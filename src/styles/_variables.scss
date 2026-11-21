@@ -1,4 +1,67 @@
-/* Variables del tema */
+/* Variables del tema: grises neutros y color de marca (naranja en claro, ámbar en oscuro por defecto) */
+
+/* Escalas base */
+:root {
+  --gris-50: #fafafa;
+  --gris-100: #f4f4f4;
+  --gris-200: #e5e5e5;
+  --gris-300: #d4d4d4;
+  --gris-400: #a3a3a3;
+  --gris-500: #737373;
+  --gris-600: #5c5c5c;
+  --gris-700: #4a4a4a;
+  --gris-750: #383838;
+  --gris-800: #2a2a2a;
+  --gris-850: #212121;
+  --gris-900: #1c1c1c;
+  --gris-950: #171717;
+}
+
+/*
+ * Color de marca. Cada marca define su acento y su versión tonal para claro y oscuro.
+ * La marca se elige en Ajustes y se guarda en <html data-marca="…"> (sin atributo: naranja).
+ */
+:root {
+  --marca-acento-claro: #c2410c;
+  --marca-suave-fondo-claro: #fde8dc;
+  --marca-suave-texto-claro: #b23e07;
+  --marca-suave-borde-claro: #f8cdb4;
+  --marca-acento-oscuro: #fbbf24;
+  --marca-base-oscuro: #f5a524;
+  --marca-suave-texto-oscuro: #fcd38a;
+}
+
+:root[data-marca='azul'] {
+  --marca-acento-claro: #1d4ed8;
+  --marca-suave-fondo-claro: #dce7fd;
+  --marca-suave-texto-claro: #1e40af;
+  --marca-suave-borde-claro: #bfd3fb;
+  --marca-acento-oscuro: #60a5fa;
+  --marca-base-oscuro: #3b82f6;
+  --marca-suave-texto-oscuro: #a9cbfd;
+}
+
+:root[data-marca='verde'] {
+  --marca-acento-claro: #15803d;
+  --marca-suave-fondo-claro: #dcf5e4;
+  --marca-suave-texto-claro: #166534;
+  --marca-suave-borde-claro: #b6e6c6;
+  --marca-acento-oscuro: #4ade80;
+  --marca-base-oscuro: #22c55e;
+  --marca-suave-texto-oscuro: #a7efc0;
+}
+
+:root[data-marca='violeta'] {
+  --marca-acento-claro: #6d28d9;
+  --marca-suave-fondo-claro: #ede4fd;
+  --marca-suave-texto-claro: #5b21b6;
+  --marca-suave-borde-claro: #d6c4fa;
+  --marca-acento-oscuro: #a78bfa;
+  --marca-base-oscuro: #8b5cf6;
+  --marca-suave-texto-oscuro: #cdbefd;
+}
+
+/* Tokens de uso: light-dark(claro, oscuro) */
 :root {
   color-scheme: light dark;
 
@@ -11,29 +74,50 @@
     color-scheme: light;
   }
 
-  /* Colores: light-dark(claro, oscuro) */
-  --color-acento: light-dark(#1463d6, #7aaeff);
-  --color-sobre-acento: light-dark(#ffffff, #0f1a20);
-  --color-acento-suave: light-dark(#e3edfc, #1b2a42);
-  --color-fondo: light-dark(#f6f8f9, #121619);
-  --color-superficie: light-dark(#ffffff, #1a2024);
-  --color-borde: light-dark(#dde3e7, #2e363c);
-  --color-borde-campo: light-dark(#7d8a95, #6b7780);
-  --color-campo: light-dark(#f8fafb, #20272c);
-  --color-texto: light-dark(#1c252c, #e0e4e7);
-  --color-texto-secundario: light-dark(#56636d, #9aa6ae);
+  /* Superficies y texto */
+  --color-fondo: light-dark(var(--gris-100), var(--gris-850));
+  --color-fondo-lateral: light-dark(var(--gris-50), var(--gris-900));
+  --color-superficie: light-dark(#ffffff, var(--gris-800));
+  --color-borde: light-dark(var(--gris-200), var(--gris-750));
+  --color-borde-campo: light-dark(var(--gris-500), var(--gris-500));
+  --color-campo: light-dark(#ffffff, var(--gris-850));
+  --color-titulo: light-dark(var(--gris-950), var(--gris-50));
+  --color-texto: light-dark(var(--gris-950), var(--gris-200));
+  --color-texto-secundario: light-dark(var(--gris-600), var(--gris-400));
+
+  /* Acento: cifras destacadas, gráficas y foco */
+  --color-acento: light-dark(var(--marca-acento-claro), var(--marca-acento-oscuro));
+
+  /* Acento tonal: botón principal, menú activo y etiquetas de acento */
+  --color-acento-suave: light-dark(
+    var(--marca-suave-fondo-claro),
+    color-mix(in srgb, var(--marca-base-oscuro) 18%, var(--gris-800))
+  );
+  --color-acento-suave-texto: light-dark(
+    var(--marca-suave-texto-claro),
+    var(--marca-suave-texto-oscuro)
+  );
+  --color-acento-suave-borde: light-dark(
+    var(--marca-suave-borde-claro),
+    color-mix(in srgb, var(--marca-base-oscuro) 32%, var(--gris-800))
+  );
+
+  /* Neutro: botón secundario y etiquetas neutras */
+  --color-neutro-fondo: light-dark(var(--gris-100), var(--gris-750));
+  --color-neutro-texto: light-dark(var(--gris-800), var(--gris-200));
+  --color-neutro-borde: light-dark(var(--gris-300), var(--gris-700));
+
+  /* Estados */
   --color-exito: light-dark(#2e7d5b, #6cc59a);
   --color-error: light-dark(#b3403a, #ee8a82);
   --color-aviso: light-dark(#9a6400, #e0b456);
   --color-info: light-dark(#3d5fb8, #93a8e6);
-  --color-esqueleto-base: light-dark(#e4e9ec, #283036);
-  --color-esqueleto-brillo: light-dark(#f2f5f7, #333c43);
 
-  // En oscuro no hay sombra: las tarjetas se separan con el borde y la superficie
-  --color-sombra: light-dark(rgb(16 24 32 / 0.08), transparent);
+  /* Esqueleto de carga */
+  --color-esqueleto: light-dark(var(--gris-200), var(--gris-750));
 
-  /* Derivados de la paleta */
-  --color-superficie-hover: color-mix(in oklab, var(--color-texto) 6%, var(--color-superficie));
+  /* Derivados */
+  --color-superficie-hover: light-dark(var(--gris-100), var(--gris-750));
   --color-foco: var(--color-acento);
 
   /* Tipografía */
@@ -44,26 +128,45 @@
   --texto-lg: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
   --texto-xl: clamp(1.5rem, 1.3rem + 0.8vw, 2rem);
 
-  /* Espacios */
+  /* Espacios (la densidad compacta los reduce) */
   --espacio-1: 0.25rem;
   --espacio-2: 0.5rem;
   --espacio-3: 0.75rem;
   --espacio-4: 1rem;
   --espacio-6: 1.5rem;
   --espacio-8: 2rem;
+  --alto-control: 44px;
 
-  /* Bordes */
-  --radio: 6px;
-  --radio-tarjeta: 16px;
+  /* Forma: 8px en controles, tarjetas y menú; 12px en ventanas flotantes */
+  --radio: 8px;
+  --radio-tarjeta: 8px;
+  --radio-flotante: 12px;
   --borde: 1px solid var(--color-borde);
-  --sombra-tarjeta: 0 1px 3px var(--color-sombra);
   --borde-campo: 1px solid var(--color-borde-campo);
+  --sombra-tarjeta: none;
+  --sombra-flotante: 0 12px 32px rgb(0 0 0 / 0.18);
+
+  /* Movimiento */
+  --curva-suave: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --duracion-corta: 150ms;
+  --duracion-pagina: 280ms;
 
   /* Medidas del layout */
-  --alto-menu-superior: 56px;
-  --ancho-menu-lateral: 220px;
+  --alto-cabecera: 56px;
+  --ancho-menu-lateral: 232px;
   --ancho-menu-recogido: 64px;
   --alto-barra-inferior: 64px;
   --ancho-minimo: 320px;
   --ancho-maximo: 1200px;
+}
+
+/* Densidad compacta: menos aire en espacios y controles */
+:root[data-densidad='compacta'] {
+  --espacio-2: 0.375rem;
+  --espacio-3: 0.5rem;
+  --espacio-4: 0.75rem;
+  --espacio-6: 1rem;
+  --espacio-8: 1.5rem;
+  --alto-control: 36px;
+  --alto-cabecera: 48px;
 }

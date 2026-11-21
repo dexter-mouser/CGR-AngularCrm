@@ -1,7 +1,5 @@
 <header class="menu-superior">
-  <a class="menu-superior__logo" routerLink="/inicio">{{ nombreAplicacion }}</a>
-
-  <div class="menu-superior__acciones">
+  <div class="menu-superior__inicio">
     <!-- Recoger o abrir el menú lateral (solo escritorio) -->
     <button
       class="boton-icono menu-superior__recoger"
@@ -13,12 +11,12 @@
     >
       <app-icono nombre="menu" />
     </button>
-
-    <app-boton-tema />
-
-    <p class="menu-superior__usuario">
-      <app-icono nombre="usuario" />
-      <span class="menu-superior__nombre">{{ usuario }}</span>
-    </p>
+    <app-migas />
   </div>
+
+  <div class="menu-superior__acciones">
+    <app-boton-tema />
+  </div>
+
+  <app-barra-carga />
 </header>

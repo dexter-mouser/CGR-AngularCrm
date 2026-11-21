@@ -2,14 +2,14 @@
 export const NOMBRE_APLICACION = 'CGR CRM';
 export const USUARIO_DE_MUESTRA = 'Usuario de muestra';
 
-// Formato de moneda
-export const IDIOMA = 'es-CO';
-export const MONEDA = 'COP';
-
 // Claves de localStorage
 export const CLAVE_TEMA = 'cgr-tema';
 export const CLAVE_MENU_RECOGIDO = 'cgr-menu-recogido';
-export const CLAVE_ORDEN_INDICADORES = 'cgr-orden-indicadores';
+export const CLAVE_DENSIDAD = 'cgr-densidad';
+export const CLAVE_MARCA = 'cgr-marca';
+
+// Color de marca del cliente (naranja/ámbar, azul, verde o violeta); se puede cambiar en Ajustes
+export const MARCA_POR_DEFECTO = 'naranja';
 
 // Demora de los adaptadores en memoria para ver el esqueleto de carga (quitar con el backend real)
 export const DEMORA_SIMULADA_MS = 1500;

@@ -6,11 +6,17 @@
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light dark" />
-    <!-- Tema guardado antes de pintar, para evitar el destello del tema equivocado -->
+    <!-- Tema, densidad y color de marca guardados, aplicados antes de pintar para evitar destellos -->
     <script>
       try {
+        var tema = localStorage.getItem('cgr-tema');
+        var densidad = localStorage.getItem('cgr-densidad');
+        var marca = localStorage.getItem('cgr-marca');
+        var raiz = document.documentElement;
         document.querySelector('meta[name="color-scheme"]').content =
-          localStorage.getItem('cgr-tema') ?? 'light dark';
+          tema === 'light' || tema === 'dark' ? tema : 'light dark';
+        if (densidad === 'compacta') raiz.setAttribute('data-densidad', densidad);
+        if (['azul', 'verde', 'violeta'].indexOf(marca) !== -1) raiz.setAttribute('data-marca', marca);
       } catch (error) {}
     </script>
     <link rel="icon" type="image/x-icon" href="favicon.ico" />

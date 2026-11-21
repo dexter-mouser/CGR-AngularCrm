@@ -18,11 +18,16 @@
   inline-size: 40px;
   block-size: 40px;
   padding: 0;
+  color: var(--color-texto-secundario);
   background: transparent;
-  border: var(--borde-campo);
+  border: 1px solid var(--color-borde);
   border-radius: var(--radio);
+  transition:
+    background-color var(--duracion-corta) ease,
+    color var(--duracion-corta) ease;
 
   &:hover {
+    color: var(--color-texto);
     background-color: var(--color-superficie-hover);
   }
 

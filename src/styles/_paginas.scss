@@ -28,3 +28,23 @@
   margin: var(--espacio-3) 0 0;
   padding-inline-start: var(--espacio-6);
 }
+
+/* Transición entre páginas: fundido con desplazamiento de 4px */
+.layout__pagina > router-outlet + * {
+  display: block;
+  animation: entrar-pagina var(--duracion-pagina) var(--curva-suave);
+}
+
+@keyframes entrar-pagina {
+  from {
+    opacity: 0;
+    translate: 0 4px;
+  }
+}
+
+// Sin animaciones si el sistema pide reducir el movimiento
+@media (prefers-reduced-motion: reduce) {
+  .layout__pagina > router-outlet + * {
+    animation: none;
+  }
+}

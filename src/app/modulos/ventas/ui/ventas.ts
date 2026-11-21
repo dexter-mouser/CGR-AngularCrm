@@ -1,22 +1,14 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { Carga } from '../../../nucleo/esqueleto/carga';
-import { EsqueletoListado } from '../../../nucleo/esqueleto/esqueleto-listado';
-import { EstadoError } from '../../../nucleo/estados/estado-error';
-import { ListarVentas } from '../aplicacion/listar-ventas';
-import type { Venta } from '../dominio/venta';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Proximamente } from '../../../nucleo/estados/proximamente';
 
+// Ventas: en construcción
 @Component({
   selector: 'app-ventas',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [EsqueletoListado, EstadoError],
-  templateUrl: './ventas.html',
+  imports: [Proximamente],
+  template: `
+    <h1>Ventas</h1>
+    <app-proximamente />
+  `,
 })
-export class Ventas {
-  private readonly listarVentas = inject(ListarVentas);
-
-  protected readonly carga = new Carga<Venta[]>(() => this.listarVentas.ejecutar());
-
-  constructor() {
-    this.carga.cargar();
-  }
-}
+export class Ventas {}

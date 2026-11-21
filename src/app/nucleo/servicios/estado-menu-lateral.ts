@@ -10,7 +10,10 @@ export class EstadoMenuLateral {
   readonly estaRecogido = signal(this.almacenamiento.leer(CLAVE_MENU_RECOGIDO) === 'si');
 
   alternar(): void {
-    const recogido = !this.estaRecogido();
+    this.fijar(!this.estaRecogido());
+  }
+
+  fijar(recogido: boolean): void {
     this.estaRecogido.set(recogido);
     this.almacenamiento.guardar(CLAVE_MENU_RECOGIDO, recogido ? 'si' : 'no');
   }

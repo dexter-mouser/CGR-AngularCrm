@@ -2,9 +2,6 @@ import { Provider } from '@angular/core';
 import { AccesoEnMemoria } from '../modulos/acceso/adaptadores/acceso-en-memoria';
 import { Ingresar, ObtenerConfiguracionAcceso } from '../modulos/acceso/aplicacion/acceso';
 import { ACCESO_REPOSITORIO, AccesoRepositorio } from '../modulos/acceso/puertos/acceso-repositorio';
-import { PanelEnMemoria } from '../modulos/inicio/adaptadores/panel-en-memoria';
-import { ConsultarPanel } from '../modulos/inicio/aplicacion/consultar-panel';
-import { PANEL_REPOSITORIO, PanelRepositorio } from '../modulos/inicio/puertos/panel-repositorio';
 import { ProductosEnMemoria } from '../modulos/inventario/adaptadores/productos-en-memoria';
 import { ListarProductos } from '../modulos/inventario/aplicacion/listar-productos';
 import {
@@ -31,14 +28,6 @@ export const PROVEEDORES_POR_MODULO: Record<string, Provider[]> = {
       provide: Ingresar,
       useFactory: (repositorio: AccesoRepositorio) => new Ingresar(repositorio),
       deps: [ACCESO_REPOSITORIO],
-    },
-  ],
-  inicio: [
-    { provide: PANEL_REPOSITORIO, useClass: PanelEnMemoria },
-    {
-      provide: ConsultarPanel,
-      useFactory: (repositorio: PanelRepositorio) => new ConsultarPanel(repositorio),
-      deps: [PANEL_REPOSITORIO],
     },
   ],
   inventario: [

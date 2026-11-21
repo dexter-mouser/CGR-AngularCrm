@@ -12,15 +12,12 @@ export type NombreIcono =
   | 'ojo'
   | 'ojo-tachado'
   | 'alerta'
-  | 'grafica'
-  | 'arrastrar'
   | 'copiar'
   | 'check'
-  | 'documento'
-  | 'usuario-mas'
-  | 'caja'
-  | 'compra'
-  | 'abono';
+  | 'ajustes'
+  | 'clientes'
+  | 'finanzas'
+  | 'herramienta';
 
 // Iconos SVG en línea, decorativos: el texto accesible lo pone quien los usa
 @Component({
@@ -42,7 +39,7 @@ export type NombreIcono =
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      stroke-width="2"
+      stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
     >
@@ -99,18 +96,6 @@ export type NombreIcono =
           <path d="M12 7v6" />
           <path d="M12 16.5v.5" />
         }
-        @case ('grafica') {
-          <path d="M3 3v18h18" />
-          <path d="M8 17v-5M13 17V8M18 17v-8" />
-        }
-        @case ('arrastrar') {
-          <circle cx="9" cy="6" r="1" />
-          <circle cx="15" cy="6" r="1" />
-          <circle cx="9" cy="12" r="1" />
-          <circle cx="15" cy="12" r="1" />
-          <circle cx="9" cy="18" r="1" />
-          <circle cx="15" cy="18" r="1" />
-        }
         @case ('copiar') {
           <rect x="9" y="9" width="12" height="12" rx="2" />
           <path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1" />
@@ -118,30 +103,25 @@ export type NombreIcono =
         @case ('check') {
           <path d="M5 12.5 10 17.5 19 7" />
         }
-        @case ('documento') {
-          <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
-          <path d="M14 3v5h5" />
-          <path d="M9 13h6M9 17h4" />
+        @case ('ajustes') {
+          <circle cx="12" cy="12" r="3" />
+          <path
+            d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"
+          />
         }
-        @case ('usuario-mas') {
-          <circle cx="10" cy="8" r="4" />
-          <path d="M3 21a7 7 0 0 1 12.5-4.3" />
-          <path d="M19 15v6M16 18h6" />
+        @case ('clientes') {
+          <circle cx="9" cy="8" r="3.5" />
+          <path d="M2.5 20a6.5 6.5 0 0 1 13 0" />
+          <path d="M16 4.6a3.5 3.5 0 0 1 0 6.8" />
+          <path d="M18.5 14.5a6.5 6.5 0 0 1 3 5.5" />
         }
-        @case ('caja') {
-          <rect x="3" y="10" width="18" height="11" rx="2" />
-          <path d="M7 10V5h10v5" />
-          <path d="M10 3h4" />
-          <path d="M7 15h2M11 15h2M15 15h2" />
+        @case ('finanzas') {
+          <rect x="2.5" y="5" width="19" height="14" rx="2" />
+          <path d="M2.5 10h19" />
+          <path d="M6.5 15h4" />
         }
-        @case ('compra') {
-          <path d="M5 8h14l-1.5 12h-11z" />
-          <path d="M9 8V6a3 3 0 0 1 6 0v2" />
-        }
-        @case ('abono') {
-          <circle cx="12" cy="12" r="9" />
-          <path d="M15 9h-4a1.5 1.5 0 0 0 0 3h2a1.5 1.5 0 0 1 0 3H9" />
-          <path d="M12 7.5V9M12 15v1.5" />
+        @case ('herramienta') {
+          <path d="M14.7 6.3a4 4 0 0 0 5 5L21 10a5.5 5.5 0 0 1-7.4 5.2L7 21.8a2.1 2.1 0 0 1-3-3l6.6-6.6A5.5 5.5 0 0 1 15.8 4.8z" />
         }
       }
     </svg>
